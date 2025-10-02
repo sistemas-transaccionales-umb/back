@@ -24,6 +24,7 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     
     /**
      * Login de usuario - Valida credenciales y retorna datos del usuario
@@ -165,9 +166,13 @@ public class AuthService {
     }
     
     /**
-     * Mapear Usuario a AuthResponse
+     * Mapear Usuario a AuthResponse con JWT
      */
     private AuthResponse toAuthResponse(Usuario usuario, String message) {
+        // Generar token JWT
+        String token = jwtService.generateToken(usuario);
+        long expiresIn = jwtService.getExpirationTime();
+        
         return new AuthResponse(
             usuario.getIdUsuario(),
             usuario.getNombres(),
@@ -179,6 +184,8 @@ public class AuthService {
             usuario.getRol().getIdRol(),
             usuario.getRol().getNombreRol(),
             usuario.getEstado().name(),
+            token,
+            expiresIn,
             message
         );
     }

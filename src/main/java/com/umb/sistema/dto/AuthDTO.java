@@ -56,7 +56,7 @@ public class AuthDTO {
     ) {}
     
     /**
-     * Response con datos del usuario autenticado
+     * Response con datos del usuario autenticado y token JWT
      */
     public record AuthResponse(
         Integer idUsuario,
@@ -69,6 +69,8 @@ public class AuthDTO {
         Integer idRol,
         String nombreRol,
         String estado,
+        String token,
+        long expiresIn,
         String message
     ) {}
 }
