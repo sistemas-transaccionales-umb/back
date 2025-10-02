@@ -104,6 +104,36 @@ Deberías ver un array JSON (posiblemente vacío si no cargaste datos de ejemplo
 
 ## 🧪 Pruebas Rápidas con cURL
 
+### 0. Autenticación (Primero!)
+
+**Registrar un usuario:**
+
+```bash
+curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "idRol": 1,
+    "tipoDocumento": "CC",
+    "numeroDocumento": "1234567890",
+    "nombres": "Admin",
+    "apellidos": "Sistema",
+    "email": "admin@sistema.com",
+    "password": "admin123",
+    "telefono": "3001234567"
+  }'
+```
+
+**Login:**
+
+```bash
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "admin@sistema.com",
+    "password": "admin123"
+  }'
+```
+
 ### 1. Crear una Categoría
 
 ```bash
@@ -272,22 +302,26 @@ Para peticiones GET, simplemente abre:
 
 ## 📚 Siguientes Pasos
 
-### 1. Probar Operaciones CRUD
+### 1. Probar Autenticación
+
+Ver documentación completa: **`AUTH_API_DOCS.md`**
+
+### 2. Probar Operaciones CRUD
 
 Sigue los ejemplos en: **`API-EXAMPLES.md`**
 
-### 2. Probar Operaciones Transaccionales
+### 3. Probar Operaciones Transaccionales
 
 Crear una venta completa (ver `API-EXAMPLES.md` sección Ventas)
 
-### 3. Explorar Transferencias
+### 4. Explorar Transferencias
 
 Probar el flujo completo:
 1. Crear transferencia
 2. Procesarla
 3. Recibirla
 
-### 4. Revisar Auditoría
+### 5. Revisar Auditoría
 
 Consultar movimientos de inventario:
 ```bash
@@ -297,6 +331,14 @@ curl http://localhost:8080/api/movimientos/producto/1
 ---
 
 ## 🎯 Flujo Recomendado de Pruebas
+
+### Paso 0: Autenticación
+
+```bash
+# 0. Registrar y hacer login
+POST /api/auth/register
+POST /api/auth/login
+```
 
 ### Paso 1: Crear Estructura Base
 

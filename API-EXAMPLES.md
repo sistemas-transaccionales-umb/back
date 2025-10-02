@@ -2,6 +2,7 @@
 
 ## Tabla de Contenidos
 - [Configuración Inicial](#configuración-inicial)
+- [Autenticación](#autenticación)
 - [Categorías](#categorías)
 - [Productos](#productos)
 - [Bodegas](#bodegas)
@@ -15,6 +16,93 @@
 ## Configuración Inicial
 
 **Base URL**: `http://localhost:8080`
+
+---
+
+## Autenticación
+
+### 1. Registrar Usuario
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "idRol": 2,
+  "tipoDocumento": "CC",
+  "numeroDocumento": "1122334455",
+  "nombres": "Pedro",
+  "apellidos": "Martínez",
+  "email": "pedro@test.com",
+  "password": "password123",
+  "telefono": "3001122334"
+}
+```
+
+**Response:**
+```json
+{
+  "idUsuario": 1,
+  "nombres": "Pedro",
+  "apellidos": "Martínez",
+  "email": "pedro@test.com",
+  "tipoDocumento": "CC",
+  "numeroDocumento": "1122334455",
+  "telefono": "3001122334",
+  "idRol": 2,
+  "nombreRol": "VENDEDOR",
+  "estado": "ACTIVO",
+  "message": "Usuario registrado exitosamente"
+}
+```
+
+### 2. Login de Usuario
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "pedro@test.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "idUsuario": 1,
+  "nombres": "Pedro",
+  "apellidos": "Martínez",
+  "email": "pedro@test.com",
+  "tipoDocumento": "CC",
+  "numeroDocumento": "1122334455",
+  "telefono": "3001122334",
+  "idRol": 2,
+  "nombreRol": "VENDEDOR",
+  "estado": "ACTIVO",
+  "message": "Login exitoso"
+}
+```
+
+### 3. Verificar Email Disponible
+```http
+GET /api/auth/check-email?email=pedro@test.com
+```
+
+**Response:** `true` (existe) o `false` (disponible)
+
+### 4. Cambiar Contraseña
+```http
+POST /api/auth/change-password
+Content-Type: application/json
+
+{
+  "email": "pedro@test.com",
+  "oldPassword": "password123",
+  "newPassword": "newpassword456"
+}
+```
+
+**Ver documentación completa en:** `AUTH_API_DOCS.md`
 
 ---
 

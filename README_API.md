@@ -102,6 +102,17 @@ Controller → Service → Repository → Entity
 
 ## Endpoints REST API
 
+### 🔐 Autenticación
+```
+POST   /api/auth/login              - Login de usuario
+POST   /api/auth/register           - Registro de nuevo usuario
+GET    /api/auth/check-email        - Verificar si email existe
+GET    /api/auth/user               - Obtener usuario por email
+POST   /api/auth/change-password    - Cambiar contraseña
+```
+
+Ver documentación completa en: **`AUTH_API_DOCS.md`**
+
 ### Categorías
 ```
 POST   /api/categorias          - Crear categoría

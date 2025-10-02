@@ -12,11 +12,18 @@ INSERT INTO roles (nombre_rol, descripcion) VALUES
 
 -- ============================================
 -- 2. USUARIOS
+-- NOTA: Las contraseñas están encriptadas con BCrypt
+-- Contraseña para todos: "password123"
 -- ============================================
 INSERT INTO usuarios (id_rol, tipo_documento, numero_documento, nombres, apellidos, email, contrasena_hash, telefono, estado, fecha_creacion) VALUES
-(1, 'CC', '1234567890', 'Juan', 'Pérez', 'admin@sistema.com', 'hash_password_admin', '3001234567', 'ACTIVO', NOW()),
-(2, 'CC', '0987654321', 'María', 'González', 'vendedor@sistema.com', 'hash_password_vendedor', '3009876543', 'ACTIVO', NOW()),
-(3, 'CC', '1122334455', 'Pedro', 'Martínez', 'bodega@sistema.com', 'hash_password_bodeguero', '3001122334', 'ACTIVO', NOW());
+(1, 'CC', '1234567890', 'Juan', 'Pérez', 'admin@sistema.com', '$2a$10$xqxF3aJ5K5h5YvhVZrHJvOMwFqZ5P8FmzCqKvlvP5vR4Y1KjP5P5e', '3001234567', 'ACTIVO', NOW()),
+(2, 'CC', '0987654321', 'María', 'González', 'vendedor@sistema.com', '$2a$10$xqxF3aJ5K5h5YvhVZrHJvOMwFqZ5P8FmzCqKvlvP5vR4Y1KjP5P5e', '3009876543', 'ACTIVO', NOW()),
+(3, 'CC', '1122334455', 'Pedro', 'Martínez', 'bodega@sistema.com', '$2a$10$xqxF3aJ5K5h5YvhVZrHJvOMwFqZ5P8FmzCqKvlvP5vR4Y1KjP5P5e', '3001122334', 'ACTIVO', NOW());
+
+-- Para usar estos usuarios, hacer login con:
+-- Email: admin@sistema.com, Password: password123
+-- Email: vendedor@sistema.com, Password: password123
+-- Email: bodega@sistema.com, Password: password123
 
 -- ============================================
 -- 3. CLIENTES
