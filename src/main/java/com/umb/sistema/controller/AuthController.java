@@ -1,1 +1,100 @@
-package com.umb.sistema.controller;import com.umb.sistema.dto.AuthDTO.*;import com.umb.sistema.service.AuthService;import jakarta.validation.Valid;import lombok.RequiredArgsConstructor;import org.springframework.http.HttpStatus;import org.springframework.http.ResponseEntity;import org.springframework.web.bind.annotation.*;@RestController@RequestMapping("/auth")@RequiredArgsConstructor@CrossOrigin(origins = "*") // Permite CORS para el frontendpublic class AuthController {        private final AuthService authService;        /**     * Login de usuario     *      * POST /api/auth/login     *      * @param request LoginRequest con email y password     * @return AuthResponse con datos del usuario autenticado     */    @PostMapping("/login")    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {        AuthResponse response = authService.login(request);        return ResponseEntity.ok(response);    }        /**     * Registro de nuevo usuario     *      * POST /api/auth/register     *      * @param request RegisterRequest con datos del usuario     * @return AuthResponse con datos del usuario creado     */    @PostMapping("/register")    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {        AuthResponse response = authService.register(request);        return new ResponseEntity<>(response, HttpStatus.CREATED);    }        /**     * Verificar si un email ya existe     *      * GET /api/auth/check-email?email=ejemplo@email.com     *      * @param email Email a verificar     * @return true si existe, false si no     */    @GetMapping("/check-email")    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {        boolean exists = authService.existsByEmail(email);        return ResponseEntity.ok(exists);    }        /**     * Obtener usuario por email     *      * GET /api/auth/user?email=ejemplo@email.com     *      * @param email Email del usuario     * @return AuthResponse con datos del usuario     */    @GetMapping("/user")    public ResponseEntity<AuthResponse> getUserByEmail(@RequestParam String email) {        AuthResponse response = authService.getUserByEmail(email);        return ResponseEntity.ok(response);    }        /**     * Cambiar contraseña     *      * POST /api/auth/change-password     *      * @param request Request con email, contraseña actual y nueva     * @return Mensaje de confirmación     */    @PostMapping("/change-password")    public ResponseEntity<MessageResponse> changePassword(@Valid @RequestBody ChangePasswordRequest request) {        authService.changePassword(request.email(), request.oldPassword(), request.newPassword());        return ResponseEntity.ok(new MessageResponse("Contraseña actualizada exitosamente"));    }        // DTO para cambio de contraseña    public record ChangePasswordRequest(        @jakarta.validation.constraints.Email String email,        @jakarta.validation.constraints.NotBlank String oldPassword,        @jakarta.validation.constraints.NotBlank         @jakarta.validation.constraints.Size(min = 6) String newPassword    ) {}        // DTO para mensajes simples    public record MessageResponse(String message) {}}
+package com.umb.sistema.controller;
+
+import com.umb.sistema.dto.AuthDTO.*;
+import com.umb.sistema.service.AuthService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*") // Permite CORS para el frontend
+public class AuthController {
+    
+    private final AuthService authService;
+    
+    /**
+     * Login de usuario
+     * 
+     * POST /api/auth/login
+     * 
+     * @param request LoginRequest con email y password
+     * @return AuthResponse con datos del usuario autenticado
+     */
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
+        AuthResponse response = authService.login(request);
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * Registro de nuevo usuario
+     * 
+     * POST /api/auth/register
+     * 
+     * @param request RegisterRequest con datos del usuario
+     * @return AuthResponse con datos del usuario creado
+     */
+    @PostMapping("/register")
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+        AuthResponse response = authService.register(request);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+    
+    /**
+     * Verificar si un email ya existe
+     * 
+     * GET /api/auth/check-email?email=ejemplo@email.com
+     * 
+     * @param email Email a verificar
+     * @return true si existe, false si no
+     */
+    @GetMapping("/check-email")
+    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
+        boolean exists = authService.existsByEmail(email);
+        return ResponseEntity.ok(exists);
+    }
+    
+    /**
+     * Obtener usuario por email
+     * 
+     * GET /api/auth/user?email=ejemplo@email.com
+     * 
+     * @param email Email del usuario
+     * @return AuthResponse con datos del usuario
+     */
+    @GetMapping("/user")
+    public ResponseEntity<AuthResponse> getUserByEmail(@RequestParam String email) {
+        AuthResponse response = authService.getUserByEmail(email);
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * Cambiar contraseña
+     * 
+     * POST /api/auth/change-password
+     * 
+     * @param request Request con email, contraseña actual y nueva
+     * @return Mensaje de confirmación
+     */
+    @PostMapping("/change-password")
+    public ResponseEntity<MessageResponse> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
+        authService.changePassword(request.email(), request.oldPassword(), request.newPassword());
+        return ResponseEntity.ok(new MessageResponse("Contraseña actualizada exitosamente"));
+    }
+    
+    // DTO para cambio de contraseña
+    public record ChangePasswordRequest(
+        @jakarta.validation.constraints.Email String email,
+        @jakarta.validation.constraints.NotBlank String oldPassword,
+        @jakarta.validation.constraints.NotBlank 
+        @jakarta.validation.constraints.Size(min = 6) String newPassword
+    ) {}
+    
+    // DTO para mensajes simples
+    public record MessageResponse(String message) {}
+}
+
