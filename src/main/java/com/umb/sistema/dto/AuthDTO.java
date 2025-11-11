@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 public class AuthDTO {
     
     /**
@@ -68,6 +70,7 @@ public class AuthDTO {
         String telefono,
         Integer idRol,
         String nombreRol,
+        List<String> permisos,
         String estado,
         String token,
         long expiresIn,

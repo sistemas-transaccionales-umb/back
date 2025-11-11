@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,6 +29,14 @@ public class Rol {
     
     @Column(name = "descripcion", columnDefinition = "TEXT")
     private String descripcion;
+    
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+        name = "rol_permisos",
+        joinColumns = @JoinColumn(name = "id_rol"),
+        inverseJoinColumns = @JoinColumn(name = "id_permiso")
+    )
+    private List<Permiso> permisos = new ArrayList<>();
     
     @OneToMany(mappedBy = "rol", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Usuario> usuarios;

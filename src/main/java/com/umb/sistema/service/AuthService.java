@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -173,6 +174,11 @@ public class AuthService {
         String token = jwtService.generateToken(usuario);
         long expiresIn = jwtService.getExpirationTime();
         
+        // Extraer nombres de permisos del rol
+        List<String> permisos = usuario.getRol().getPermisos().stream()
+            .map(permiso -> permiso.getNombre())
+            .collect(java.util.stream.Collectors.toList());
+        
         return new AuthResponse(
             usuario.getIdUsuario(),
             usuario.getNombres(),
@@ -183,6 +189,7 @@ public class AuthService {
             usuario.getTelefono(),
             usuario.getRol().getIdRol(),
             usuario.getRol().getNombreRol(),
+            permisos,
             usuario.getEstado().name(),
             token,
             expiresIn,

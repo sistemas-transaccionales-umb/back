@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UsuarioDTO {
     
@@ -45,7 +46,7 @@ public class UsuarioDTO {
     // Response DTO
     public record UsuarioResponse(
         Integer idUsuario,
-        String nombreRol,
+        RolDTO.RolResponse rol,
         String tipoDocumento,
         String numeroDocumento,
         String nombres,
